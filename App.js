@@ -1,86 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, Image } from 'react-native';
+import * as React from 'react';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import TextScreen from './src/pages/TextScreen';
 
-const App = () => {
-  const [userInput, setUserInput] = useState('');
-  const [imageUrl, setImageUrl] = useState(null);
+const styles = StyleSheet.create({
+  homeContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start', // Değişen kısım
+    backgroundColor: '#a6cfe3',
+    paddingHorizontal: 20,
+  },
+  homeLogo: {
+    width:400,
+    height: 400,
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#1579eb',
+    paddingVertical: 10,
+    paddingHorizontal: 30, 
+    borderRadius: 48,
+    marginTop: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  description: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+});
 
-  const handleInputChange = (text) => {
-    setUserInput(text);
-  };
-
-  const generateImage = async () => {
-    const data = { inputs: userInput };
-    const response = await fetch(
-      "https://api-inference.huggingface.co/models/SG161222/Realistic_Vision_V1.4",
-      {
-        headers: { Authorization: "Bearer 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" },
-        method: "POST",
-        body: JSON.stringify(data),
-      }
-    );
-
-    if (response.ok) {
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      setImageUrl(url);
-    } else {
-      console.error('Görsel oluşturma başarısız:', response.statusText);
-      // Hata mesajı gösterin
-    }
-  };
-
-  const styles = {
-    container: {
-      flex: 1,
-      padding: 50,
-      top:100,
-      backgroundColor: '#f5f5f5',
-    },
-    heading: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: '#333',
-    },
-    input: {
-      borderWidth: 1,
-      borderColor: '#ccc',
-      padding: 10,
-      borderRadius: 5,
-      fontSize: 16,
-    },
-    button: {
-      backgroundColor: '#000',
-      color: '#fff',
-      borderRadius: 5,
-      padding: 10,
-      marginTop: 10,
-    },
-    image: {
-      width: 300,
-      height: 300,
-      borderRadius: 20,
-      marginTop: 10,
-    },
-  };
-
+function HomeScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Metni giriniz:</Text>
-      <TextInput
-        value={userInput}
-        onChangeText={handleInputChange}
-        style={styles.input}
+    <View style={styles.homeContainer}>
+      <Image
+        style={styles.homeLogo}
+        source={require('./assets/home.png')}
       />
-      <Button title="Görsel Oluştur" onPress={generateImage} style={styles.button} />
-      {imageUrl && (
-        <View>
-          <Text style={styles.heading}>Oluşturulan Görsel:</Text>
-          <Image source={{ uri: imageUrl }} style={styles.image} />
-        </View>
-      )}
+      <Text style={styles.title}>Unleash Your Imagination</Text>
+      <Text style={styles.description}>
+        Create Images from Words
+        With Image AI, you can easily bring your imagination to life.
+        All you need to do is express the image in your mind with words.
+        Our artificial intelligence will analyze your text and transform it into a unique picture.
+      </Text>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Text')}>
+        <Text style={{ color: 'white' }}>Start</Text>
+      </TouchableOpacity>
     </View>
   );
-};
+}
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Image AI" component={HomeScreen} />
+        <Stack.Screen name="Text" component={TextScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default App;
