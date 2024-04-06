@@ -1,9 +1,11 @@
 # Text-to-Image AI Mobile App
 
+__This application allows you to generate images from text using React Native, Expo, React Navigation, and the Hugging Face.js AI model. Users can enter the desired text in the text input screen and the application converts this text into an image using an AI model. The generated image is displayed in the application.__
+
+### Video
 https://github.com/halilxibrahim/ImageAI-App/assets/54751699/c096f0c9-ccb9-4402-ac2c-007c890b7d55
 
 
-- This application allows you to generate images from text using React Native, Expo, React Navigation, and the Hugging Face.js AI model. Users can enter the desired text in the text input screen and the application converts this text into an image using an AI model. The generated image is displayed in the application.
 
 ### Features:
 
