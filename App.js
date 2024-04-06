@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TextScreen from './src/pages/TextScreen';
+import LoginScreen from "./src/pages/LoginScreen";
+
 
 const styles = StyleSheet.create({
   homeContainer: {
@@ -64,6 +66,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Image AI" component={HomeScreen} />
         <Stack.Screen name="Text" component={TextScreen} />
       </Stack.Navigator>
