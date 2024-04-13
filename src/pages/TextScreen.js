@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { convertBlobToImage } from '../utils/imageFunctions';
+import axios from 'axios';
 
 const TextScreen = () => {
   const [userInput, setUserInput] = useState('');
@@ -10,23 +12,22 @@ const TextScreen = () => {
   };
 
   const generateImage = async () => {
-    const data = { inputs: userInput };
-    const response = await fetch(
-      "https://api-inference.huggingface.co/models/SG161222/Realistic_Vision_V1.4",
-      {
-        headers: { Authorization: "Bearer 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" },
-        method: "POST",
-        body: JSON.stringify(data),
-      }
-    );
-
-    if (response.ok) {
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      setImageUrl(url);
-    } else {
-      console.error('Görsel oluşturma başarısız:', response.statusText);
-      // Hata mesajı gösterin
+    try {
+      const { data } = await axios.post(
+        "https://api-inference.huggingface.co/models/SG161222/Realistic_Vision_V1.4",
+        {inputs: userInput},
+        {
+          headers: {
+            Authorization: 'Bearer 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',
+            'Content-Type': 'application/json'
+          },
+          responseType: 'blob'
+        }
+      );
+      const uri = await convertBlobToImage({data})
+      setImageUrl(uri);
+    } catch(e) {
+      console.log('generate image error')
     }
   };
 
