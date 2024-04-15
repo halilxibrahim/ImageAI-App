@@ -23,7 +23,7 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('/Users/halil/Desktop/ImageAI-App/assets/loginimage.png')}
+        source={require('../../assets/loginimage.png')}
         style={styles.image}
       />
       <TextInput
